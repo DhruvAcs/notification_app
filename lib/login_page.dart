@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height:60),
               Text(
-                'Welcome To the APP',
+                'Welcome To Schedula',
                 style: GoogleFonts.bebasNeue(fontWeight: FontWeight.bold, fontSize: 52),
               ),
               SizedBox(height: 10),
