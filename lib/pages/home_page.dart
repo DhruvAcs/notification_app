@@ -14,25 +14,32 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Column(
+      body: Center(
+          child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('Signed in test as user : ' + user.email!),
           Material(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7),),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(7),
+            ),
             clipBehavior: Clip.antiAlias,
             child: MaterialButton(
               minWidth: 125,
               height: 50,
-              onPressed: (){
+              onPressed: () {
                 FirebaseAuth.instance.signOut();
               },
               color: Colors.lightBlue[100],
-              child: Text('Sign Out', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
+              child: Text(
+                'Sign Out',
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),
-
         ],
       )),
     );

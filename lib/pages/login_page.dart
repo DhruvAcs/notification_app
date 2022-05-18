@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final VoidCallback showRegisterPage;
+  const LoginPage({Key? key,required this.showRegisterPage}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -132,11 +133,14 @@ class _LoginPageState extends State<LoginPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      ' Register now',
-                      style: TextStyle(
-                          color: Colors.lightBlue[400],
-                          fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: widget.showRegisterPage,
+                      child: Text(
+                        ' Register now',
+                        style: TextStyle(
+                            color: Colors.lightBlue[400],
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 )
