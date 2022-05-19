@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:notification_app/pages/forgot_pw_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -41,11 +42,13 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.doorbell_rounded,
-                  size: 150,
+                Lottie.network(
+                  'https://assets5.lottiefiles.com/packages/lf20_cq2ykkjy.json',
+                  width: 250,
+                  height: 250,
+                  fit: BoxFit.fill,
                 ),
-                SizedBox(height: 60),
+                SizedBox(height: 50),
                 Text(
                   'Welcome To Absentee',
                   style: GoogleFonts.bebasNeue(

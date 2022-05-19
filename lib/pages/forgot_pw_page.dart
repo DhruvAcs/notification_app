@@ -1,6 +1,8 @@
 import 'dart:js';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -22,10 +24,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Padding(
+           Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.0),
             child: Text(
               'Enter your email for a password reset link',
+              style: GoogleFonts.bebasNeue(fontSize: 20),
               textAlign: TextAlign.center,
             ),
           ),

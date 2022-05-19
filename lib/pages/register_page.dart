@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -18,22 +19,37 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmpasswordController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     super.dispose();
   }
 
   Future signUp() async {
+    //create user for auth
     if (passwordConfirmed()) {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
+
+      //user details
+      addUserDetails(_firstNameController.text.trim(), _lastNameController.text.trim() , _emailController.text.trim());
     }
   }
+   Future addUserDetails(String firstName, String lastName, String email) async{
+    await FirebaseFirestore.instance.collection('users').add({
+      'first name': firstName,
+      'last name': lastName,
+      'email':email,
+    });
+   }
 
   bool passwordConfirmed() {
     if (_passwordController.text.trim() ==
@@ -54,11 +70,6 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.doorbell_rounded,
-                  size: 150,
-                ),
-                SizedBox(height: 60),
                 Text(
                   'Register For Absentee',
                   style: GoogleFonts.bebasNeue(
@@ -70,6 +81,50 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: GoogleFonts.bebasNeue(fontSize: 20),
                 ),
                 SizedBox(height: 40),
+
+                //first name box
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextField(
+                    controller: _firstNameController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black12),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.lightBlueAccent),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      hintText: 'First Name',
+                      fillColor: Colors.grey[200],
+                      filled: true,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+
+                //last name box
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextField(
+                    controller: _lastNameController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black12),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.lightBlueAccent),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      hintText: 'Last Name',
+                      fillColor: Colors.grey[200],
+                      filled: true,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
 
                 //email box
                 Padding(
