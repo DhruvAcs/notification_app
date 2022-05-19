@@ -48,18 +48,18 @@ class _LoginPageState extends State<LoginPage> {
                   height: 250,
                   fit: BoxFit.fill,
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 Text(
                   'Welcome To Absentee',
                   style: GoogleFonts.bebasNeue(
                       fontWeight: FontWeight.bold, fontSize: 52),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Know when your teachers are absent and what to do!',
                   style: GoogleFonts.bebasNeue(fontSize: 20),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
 
                 //email box
                 Padding(
@@ -68,11 +68,11 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _emailController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black12),
+                        borderSide: const BorderSide(color: Colors.black12),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.lightBlueAccent),
+                        borderSide: const BorderSide(color: Colors.lightBlueAccent),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       hintText: 'Email',
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 //password box
                 Padding(
@@ -91,11 +91,11 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: true,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black12),
+                        borderSide: const BorderSide(color: Colors.black12),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.lightBlueAccent),
+                        borderSide: const BorderSide(color: Colors.lightBlueAccent),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       hintText: 'Password',
@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return ForgotPasswordPage();
+                                return const ForgotPasswordPage();
                               },
                             ),
                           );
@@ -133,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 //Sign in button
                 Padding(
@@ -142,12 +142,12 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: signIn,
                     child: Container(
                         width: 125,
-                        padding: EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
                             color: Colors.lightBlueAccent[100],
                             border: Border.all(color: Colors.black12),
                             borderRadius: BorderRadius.circular(12)),
-                        child: Center(
+                        child: const Center(
                           child: Text('Sign In',
                               style: TextStyle(
                                   color: Colors.white,
@@ -156,12 +156,12 @@ class _LoginPageState extends State<LoginPage> {
                         )),
                   ),
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Don\'t have an account?',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,

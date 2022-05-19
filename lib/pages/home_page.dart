@@ -19,8 +19,8 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.grey.shade50,
         color: Colors.lightBlue.shade200,
-        animationDuration: Duration(milliseconds: 450),
-        items: [
+        animationDuration: const Duration(milliseconds: 450),
+        items: const [
           Icon(Icons.home, color: Colors.white,),
           Icon(Icons.person, color:Colors.white),
           Icon(Icons.settings, color:Colors.white),
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                 FirebaseAuth.instance.signOut();
               },
               color: Colors.lightBlue[100],
-              child: Text(
+              child: const Text(
                 'Sign Out',
                 style: TextStyle(
                     fontSize: 16,
