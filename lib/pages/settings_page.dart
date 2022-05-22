@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:settings_ui/settings_ui.dart';
 
 
 class SettingsPage extends StatefulWidget {
@@ -16,34 +17,25 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Signed in test as user : ' + user.email!),
-            Material(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7),
+      body:  SettingsList(
+        sections: [
+          SettingsSection(
+            title: Text('Common'),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                leading: Icon(Icons.language),
+                title: Text('Language'),
+                value: Text('English'),
               ),
-              clipBehavior: Clip.antiAlias,
-              child: MaterialButton(
-                minWidth: 125,
-                height: 50,
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                },
-                color: Colors.lightBlue[100],
-                child: const Text(
-                  'Sign Out',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
+              SettingsTile.switchTile(
+                onToggle: (value) {},
+                initialValue: true,
+                leading: Icon(Icons.format_paint),
+                title: Text('Enable custom theme'),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }

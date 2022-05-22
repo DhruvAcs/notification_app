@@ -2,7 +2,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notification_app/pages/settings_page.dart';
-
+import 'dashboard_page.dart';
+import 'calendar_page.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -14,18 +15,10 @@ final user = FirebaseAuth.instance.currentUser!;
 
 class _HomePageState extends State<HomePage> {
   late Widget _currentPage ;
-  Widget dashboard(){
-    return Container();
-  }
-  Widget calender(){
-    return Container();
-  }
-  Widget settings(){
-    return SettingsPage();
-  }
+
   @override
   void initState() {
-    _currentPage = dashboard();
+    _currentPage = DashboardPage();
     super.initState();
   }
   @override
@@ -36,13 +29,13 @@ class _HomePageState extends State<HomePage> {
         onTap: (index){
           switch (index){
             case 0:
-              _currentPage = dashboard();
+              _currentPage = DashboardPage();
               break;
             case 1:
-              _currentPage = calender();
+              _currentPage = CalendarPage();
               break;
             case 2:
-              _currentPage = settings();
+              _currentPage = SettingsPage();
               break;
           }
           setState(() {
