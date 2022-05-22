@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notification_app/pages/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,9 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 final user = FirebaseAuth.instance.currentUser!;
-final List<Widget> _pages = [
-
-];
 
 class _HomePageState extends State<HomePage> {
   late Widget _currentPage ;
@@ -23,34 +21,7 @@ class _HomePageState extends State<HomePage> {
     return Container();
   }
   Widget settings(){
-    return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Signed in test as user : ' + user.email!),
-            Material(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: MaterialButton(
-                minWidth: 125,
-                height: 50,
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                },
-                color: Colors.lightBlue[100],
-                child: const Text(
-                  'Sign Out',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-          ],
-        ));
+    return SettingsPage();
   }
   @override
   void initState() {
