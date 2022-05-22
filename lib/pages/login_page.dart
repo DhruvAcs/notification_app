@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:notification_app/pages/forgot_pw_page.dart';
 
+
 class LoginPage extends StatefulWidget {
   final VoidCallback showRegisterPage;
 
@@ -18,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
 
   Future signIn() async {
 
