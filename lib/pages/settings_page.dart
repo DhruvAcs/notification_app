@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -14,8 +13,12 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
-  final user =FirebaseAuth.instance.currentUser!;
-
+  late final instance;
+  late final user;
+  initState() {
+    instance = FirebaseAuth.instance;
+    user = instance.currentUser!;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,11 +70,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: const Text('Password'),
                 value: const Text('*********'),
               ),
-              SettingsTile.switchTile(
-                onToggle: (value) {},
-                initialValue: true,
-                leading: const Icon(Icons.person),
-                title: const Text('Teacher Select'),
+              SettingsTile.navigation(
+                leading: const Icon(Icons.search),
+                title: const Text('Logout'),
+                value: const Text('Bye Bye'),
+                onPressed: (context) {
+                  instance.signOut();
+                },
               ),
             ],
           ),
