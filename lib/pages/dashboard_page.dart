@@ -18,10 +18,8 @@ class _DashboardPageState extends State<DashboardPage> {
           children: [
             MaterialButton(
               onPressed: () {
-                Navigator.of(context).pop();
-                new MaterialPageRoute(builder: (context) {
-                  return TeacherSelectPage();
-                });
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => TeacherSelectPage(),));
               },
               child: const Text(
                 'Select your teacher',
