@@ -14,12 +14,16 @@ class _DashboardPageState extends State<DashboardPage> {
   List<String> docIDs = [];
 
   Future getDocId() async {
-    await FirebaseFirestore.instance.collection('absentinfo').get().then(
+    await FirebaseFirestore.instance
+        .collection('absentinfo')
+        .orderBy('period', descending: false)
+        .get()
+        .then(
           (snapshot) => snapshot.docs.forEach((document) {
-        print(document.reference);
-        docIDs.add(document.reference.id);
-      }),
-    );
+            print(document.reference);
+            docIDs.add(document.reference.id);
+          }),
+        );
   }
 
   @override
@@ -28,8 +32,9 @@ class _DashboardPageState extends State<DashboardPage> {
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
         elevation: 0,
-        title: Text('Welcome ' +
-          user.email!,
+        title: Text(
+          'Welcome ' + user.email!,
+          textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16),
         ),
       ),
@@ -38,20 +43,22 @@ class _DashboardPageState extends State<DashboardPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              child: FutureBuilder(future: getDocId(),builder: (context, snapshot) {
-                return ListView.builder(
-                  itemCount: docIDs.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        title: GetAction(documentId: docIDs[index]),
-                        tileColor: Colors.grey.shade200,
-                      ),
+              child: FutureBuilder(
+                  future: getDocId(),
+                  builder: (context, snapshot) {
+                    return ListView.builder(
+                      itemCount: docIDs.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: GetAction(documentId: docIDs[index]),
+                            tileColor: Colors.grey.shade200,
+                          ),
+                        );
+                      },
                     );
-                  },
-                );
-              }),
+                  }),
             ),
           ],
         ),

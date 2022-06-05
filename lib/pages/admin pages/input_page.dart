@@ -99,12 +99,12 @@ class _InputPageState extends State<InputPage> {
                         MultiSelectDialogField(
                           items: _items,
                           title: Text("teacher"),
-                          selectedColor: Colors.lightBlue,
+                          selectedColor: Colors.black12,
                           decoration: BoxDecoration(
-                            color: Colors.lightBlue.withOpacity(0.1),
+                            color: Colors.white.withOpacity(0.1),
                             borderRadius: BorderRadius.all(Radius.circular(40)),
                             border: Border.all(
-                              color: Colors.lightBlue,
+                              color: Colors.black12,
                               width: 2,
                             ),
                           ),
@@ -115,7 +115,7 @@ class _InputPageState extends State<InputPage> {
                           buttonText: Text(
                             "Teacher select",
                             style: TextStyle(
-                              color: Colors.lightBlue[800],
+                              color: Colors.black,
                               fontSize: 16,
                             ),
                           ),
