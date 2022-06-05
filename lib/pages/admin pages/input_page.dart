@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
+
 class Teacher {
   final int id;
   final String name;
@@ -51,6 +52,7 @@ class _InputPageState extends State<InputPage> {
   }
 
   final _actionController = TextEditingController();
+  final _periodController = TextEditingController();
   final ValueNotifier<DateTime?> dateSub = ValueNotifier(null);
   final ValueNotifier<DateTime?> longDateSub = ValueNotifier(null);
   final ValueNotifier<TimeOfDay?> timeSub = ValueNotifier(null);
@@ -59,12 +61,14 @@ class _InputPageState extends State<InputPage> {
   @override
   void dispose() {
     _actionController.dispose();
+    _periodController.dispose();
     super.dispose();
   }
 
-  Future addTeacherabsesnce(String action) async {
+  Future addTeacherabsesnce(String action,int period) async {
     await FirebaseFirestore.instance.collection('absentinfo').add({
-      'action': _actionController.text.trim(),
+      'action': action,
+      'period': period,
     });
   }
 
@@ -136,7 +140,26 @@ class _InputPageState extends State<InputPage> {
                             .lightBlueAccent),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      hintText: 'Action',
+                      hintText: 'action',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextField(
+                    controller: _periodController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black12),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors
+                            .lightBlueAccent),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      hintText: 'period',
                     ),
                   ),
                 ),
@@ -147,7 +170,7 @@ class _InputPageState extends State<InputPage> {
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    ' Short Date',
+                    'Date',
                     textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 18.0),
                   ),
@@ -185,7 +208,7 @@ class _InputPageState extends State<InputPage> {
                   height: 10,
                 ),
                 const Text(
-                  ' 12H Format Time',
+                  'Time',
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 18.0),
                 ),
@@ -214,7 +237,13 @@ class _InputPageState extends State<InputPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-                    //onTap: ,
+                    onTap: (){
+                      addTeacherabsesnce(
+                        _actionController.text.trim(),
+                        int.parse(_periodController.text.trim()),
+
+                      );
+                    },
                     child: Container(
                         width: 125,
                         padding: const EdgeInsets.all(15),

@@ -52,12 +52,9 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.lightBlue,
-          elevation: 0,
-        ),
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
 
             children: [
               Padding(
