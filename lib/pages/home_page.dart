@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
           });
         },
         backgroundColor: Colors.grey.shade50,
-        color: Colors.lightBlue.shade200,
+        color: Colors.lightBlue,
         animationDuration: const Duration(milliseconds: 450),
         items: const [
           Icon(Icons.home, color: Colors.white,),

@@ -26,7 +26,9 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        backgroundColor: Colors.lightBlue,
+        elevation: 0,
+        title: Text('Welcome ' +
           user.email!,
           style: TextStyle(fontSize: 16),
         ),

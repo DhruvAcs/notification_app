@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -52,43 +53,61 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.lightBlue[400],
+          backgroundColor: Colors.lightBlue,
           elevation: 0,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
-              child: Column(children: <Widget>[
-                SizedBox(height: 40),
-                MultiSelectDialogField(
-                  items: _items,
-                  title: Text("teacher"),
-                  selectedColor: Colors.lightBlue,
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlue.withOpacity(0.1),
-                    borderRadius: BorderRadius.all(Radius.circular(40)),
-                    border: Border.all(
-                      color: Colors.lightBlue,
-                      width: 2,
-                    ),
+        body: Center(
+          child: Column(
+
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Select the teachers you would like to see in your dashboard and get notified when they are absent and what to do!',
+                    style: GoogleFonts.bebasNeue(fontSize: 20),
                   ),
-                  buttonIcon: Icon(
-                    Icons.add,
-                    color: Colors.lightBlue,
-                  ),
-                  buttonText: Text(
-                    "teacher select",
-                    style: TextStyle(
-                      color: Colors.lightBlue[800],
-                      fontSize: 16,
-                    ),
-                  ),
-                  onConfirm: (results) {
-                  },
                 ),
-                SizedBox(height: 50),
-              ])),
+              ),
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(20),
+                    child: Column(children: <Widget>[
+                      SizedBox(height: 10),
+                      MultiSelectDialogField(
+                        items: _items,
+                        title: Text("teacher"),
+                        selectedColor: Colors.lightBlue,
+                        decoration: BoxDecoration(
+                          color: Colors.lightBlue.withOpacity(0.1),
+                          borderRadius: BorderRadius.all(Radius.circular(40)),
+                          border: Border.all(
+                            color: Colors.lightBlue,
+                            width: 2,
+                          ),
+                        ),
+                        buttonIcon: Icon(
+                          Icons.add,
+                          color: Colors.lightBlue,
+                        ),
+                        buttonText: Text(
+                          "Teacher Select",
+                          style: TextStyle(
+                            color: Colors.lightBlue[800],
+                            fontSize: 16,
+                          ),
+                        ),
+                        onConfirm: (results) {
+                        },
+                      ),
+                      SizedBox(height: 50),
+                    ])),
+              ),
+            ],
+          ),
         ));
   }
 }

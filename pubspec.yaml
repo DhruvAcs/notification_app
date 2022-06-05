@@ -36,6 +36,9 @@ dependencies:
   settings_ui: ^2.0.2
   multi_select_flutter: ^4.1.2
   url_launcher: ^6.1.2
+  table_calendar: ^3.0.6
+  intl: ^0.17.0
+
 
 
 

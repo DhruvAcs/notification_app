@@ -58,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsTile.navigation(
                 leading: const Icon(Icons.person),
                 title: const Text('Teacher select'),
-                value: const Text('Also the second '),
+                value: const Text(' '),
                 onPressed: (context) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => TeacherSelectPage(),
