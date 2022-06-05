@@ -65,7 +65,7 @@ class _InputPageState extends State<InputPage> {
                 ),
                 const SizedBox(height: 10),
 
-                //Sign in button
+                //save button
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(

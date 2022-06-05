@@ -7,7 +7,6 @@ import 'package:notification_app/pages/teacherSelect_page.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:notification_app/main.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -70,12 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: const Icon(Icons.web),
                 title: const Text('School website'),
                 value: const Text('School Name'),
-                onPressed: (context) async {
-                  final _url = https.get(Uri.parse('https://www.bxscience.edu/'));
-
-                  if (await canLaunchUrl(_url)) {
-                    await launchUrl(_url);
-                  }
+                onPressed: (context)  {
 
                 },
 
