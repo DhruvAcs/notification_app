@@ -1,8 +1,13 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:notification_app/pages/admin%20pages/input_page.dart';
+import 'package:notification_app/pages/forgot_pw_page.dart';
+import 'package:notification_app/pages/teacherSelect_page.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:notification_app/main.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -15,6 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   late final instance;
   late final user;
+
   initState() {
     instance = FirebaseAuth.instance;
     user = instance.currentUser!;
@@ -53,13 +59,28 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsTile.navigation(
                 leading: const Icon(Icons.person),
                 title: const Text('Teacher select'),
-                value: const Text('English'),
+                value: const Text('Also the second '),
+                onPressed: (context) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TeacherSelectPage(),
+                  ));
+                }
               ),
               SettingsTile.navigation(
                 leading: const Icon(Icons.web),
                 title: const Text('School website'),
                 value: const Text('School Name'),
+                onPressed: (context) async {
+                  final _url = https.get(Uri.parse('https://www.bxscience.edu/'));
+
+                  if (await canLaunchUrl(_url)) {
+                    await launchUrl(_url);
+                  }
+
+                },
+
               ),
+
             ],
           ),
           SettingsSection(
@@ -69,6 +90,22 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: const Icon(Icons.search),
                 title: const Text('Password'),
                 value: const Text('*********'),
+                onPressed: (context) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ForgotPasswordPage(),
+                  ));
+                },
+
+              ),
+              SettingsTile.navigation(
+                leading: const Icon(Icons.person),
+                title: const Text('Switch to Admin'),
+                value: const Text('This will only work with admin permission accounts'),
+                onPressed: (context) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => InputPage(),
+                  ));
+                },
               ),
               SettingsTile.navigation(
                 leading: const Icon(Icons.search),

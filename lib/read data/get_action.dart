@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 class GetAction extends StatelessWidget {
   final String documentId;
 
-  GetAction({required this.documentId})
+  GetAction({required this.documentId}){
+
+  }
 
 
   @override
@@ -17,7 +19,7 @@ class GetAction extends StatelessWidget {
       if (snapshot.connectionState == ConnectionState.done) {
         Map<String, dynamic> data = snapshot.data!.data() as Map<String,
             dynamic>;
-        return Text('Action: ${data['action']}');
+        return Text('Teacher: Period: Action: ${data['action']}');
       }
       return Text('loading...');
     }),

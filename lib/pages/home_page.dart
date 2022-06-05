@@ -2,8 +2,10 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notification_app/pages/settings_page.dart';
+import 'package:notification_app/pages/teacherSelect_page.dart';
 import 'dashboard_page.dart';
-import 'calendar_page.dart';
+
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -24,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: Colors.white,
       bottomNavigationBar: CurvedNavigationBar(
         onTap: (index){
           switch (index){
@@ -32,7 +34,7 @@ class _HomePageState extends State<HomePage> {
               _currentPage = DashboardPage();
               break;
             case 1:
-              _currentPage = CalendarPage();
+              _currentPage = TeacherSelectPage();
               break;
             case 2:
               _currentPage = SettingsPage();

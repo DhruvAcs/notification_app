@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notification_app/pages/teacherSelect_page.dart';
+import 'package:notification_app/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notification_app/read%20data/get_action.dart';
 
@@ -16,41 +16,36 @@ class _DashboardPageState extends State<DashboardPage> {
   Future getDocId() async {
     await FirebaseFirestore.instance.collection('absentinfo').get().then(
           (snapshot) => snapshot.docs.forEach((document) {
-            print(document.reference);
-            docIDs.add(document.reference.id);
-          }),
-        );
+        print(document.reference);
+        docIDs.add(document.reference.id);
+      }),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          user.email!,
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MaterialButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TeacherSelectPage(),
-                ));
-              },
-              child: const Text(
-                'Select your teacher',
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
-              color: Colors.lightBlue[200],
-            ),
             Expanded(
               child: FutureBuilder(future: getDocId(),builder: (context, snapshot) {
                 return ListView.builder(
                   itemCount: docIDs.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: GetAction(documentId: docIDs[index]),
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: GetAction(documentId: docIDs[index]),
+                        tileColor: Colors.grey.shade200,
+                      ),
                     );
                   },
                 );

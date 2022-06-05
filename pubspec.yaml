@@ -35,6 +35,8 @@ dependencies:
   multi_select_item: ^1.0.3
   settings_ui: ^2.0.2
   multi_select_flutter: ^4.1.2
+  url_launcher: ^6.1.2
+  http: ^0.13.4
 
 
 
