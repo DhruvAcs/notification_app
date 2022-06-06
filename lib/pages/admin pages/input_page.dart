@@ -57,7 +57,7 @@ class _InputPageState extends State<InputPage> {
   final ValueNotifier<DateTime?> longDateSub = ValueNotifier(null);
   final ValueNotifier<TimeOfDay?> timeSub = ValueNotifier(null);
   final ValueNotifier<TimeOfDay?> timeSubShort = ValueNotifier(null);
-
+  var teachers = [];
   @override
   void dispose() {
     _actionController.dispose();
@@ -65,10 +65,12 @@ class _InputPageState extends State<InputPage> {
     super.dispose();
   }
 
-  Future addTeacherabsesnce(String action,int period) async {
+  Future addTeacherabsesnce(String action, int period, DateTime date) async {
     await FirebaseFirestore.instance.collection('absentinfo').add({
       'action': action,
       'period': period,
+      'date': 0,
+      'teacher': 'ee',
     });
   }
 
@@ -93,7 +95,7 @@ class _InputPageState extends State<InputPage> {
                 SingleChildScrollView(
                   child: Container(
                       alignment: Alignment.center,
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(25),
                       child: Column(children: <Widget>[
                         SizedBox(height: 10),
                         MultiSelectDialogField(
@@ -102,7 +104,7 @@ class _InputPageState extends State<InputPage> {
                           selectedColor: Colors.black12,
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.1),
-                            borderRadius: BorderRadius.all(Radius.circular(40)),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
                             border: Border.all(
                               color: Colors.black12,
                               width: 2,
@@ -120,6 +122,8 @@ class _InputPageState extends State<InputPage> {
                             ),
                           ),
                           onConfirm: (results) {
+                            teachers = results;
+                            print(teachers);
                           },
                         ),
                         SizedBox(height: 10),
@@ -241,6 +245,7 @@ class _InputPageState extends State<InputPage> {
                       addTeacherabsesnce(
                         _actionController.text.trim(),
                         int.parse(_periodController.text.trim()),
+                          dateSub.value!
 
                       );
                     },

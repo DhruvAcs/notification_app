@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  String errorMessage = 'Something went wrong';
+  String errorMessage = '';
 
 
 

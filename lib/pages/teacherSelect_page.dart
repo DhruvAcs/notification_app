@@ -71,7 +71,7 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
               SingleChildScrollView(
                 child: Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(25),
                     child: Column(children: <Widget>[
                       SizedBox(height: 10),
                       MultiSelectDialogField(
@@ -80,7 +80,7 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
                         selectedColor: Colors.lightBlue,
                         decoration: BoxDecoration(
                           color: Colors.lightBlue.withOpacity(0.1),
-                          borderRadius: BorderRadius.all(Radius.circular(40)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                           border: Border.all(
                             color: Colors.lightBlue,
                             width: 2,
