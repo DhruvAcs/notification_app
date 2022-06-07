@@ -31,12 +31,13 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(7),
         child: Container(
-          margin: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+          margin: EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
           height: double.infinity,
           width: double.infinity,
           decoration: BoxDecoration(
+            border: Border.all(color: Colors.deepPurpleAccent),
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
@@ -65,10 +66,33 @@ class _DashboardPageState extends State<DashboardPage> {
                           itemCount: docIDs.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                title: GetAction(documentId: docIDs[index]),
-                                tileColor: Colors.grey.shade200,
+                              padding: const EdgeInsets.all(5.0),
+                              child: Container(
+                                constraints: BoxConstraints.expand(
+                                  height: Theme.of(context).textTheme.headline4!.fontSize! * 1.1 ,
+                                ),
+                                margin: const EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10)
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],),
+
+
+                                child: Center(
+                                    child: GetAction(documentId: docIDs[index])),//child = Container(list the parameters)
+
                               ),
                             );
                           },
