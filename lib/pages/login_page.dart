@@ -65,12 +65,12 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Lottie.network(
-                    'https://assets5.lottiefiles.com/packages/lf20_cq2ykkjy.json',
+                    'https://assets10.lottiefiles.com/packages/lf20_rqilnf3p.json',
                     width: 250,
                     height: 250,
                     fit: BoxFit.fill,
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 40),
                   Text(
                     'Welcome To Absentee',
                     style: GoogleFonts.bebasNeue(
@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightBlueAccent),
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Email',
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightBlueAccent),
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Password',
@@ -172,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                           width: 125,
                           padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
-                              color: Colors.lightBlueAccent[100],
+                              color: Colors.deepPurpleAccent[100],
                               border: Border.all(color: Colors.black12),
                               borderRadius: BorderRadius.circular(12)),
                           child: const Center(

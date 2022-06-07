@@ -107,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightBlueAccent),
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'First Name',
@@ -129,7 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightBlueAccent),
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Last Name',
@@ -152,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightBlueAccent),
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Email',
@@ -176,7 +176,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightBlueAccent),
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Password',
@@ -199,7 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightBlueAccent),
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Confirm Password',
@@ -223,7 +223,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           width: 125,
                           padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
-                              color: Colors.lightBlueAccent[100],
+                              color: Colors.deepPurpleAccent[100],
                               border: Border.all(color: Colors.black12),
                               borderRadius: BorderRadius.circular(12)),
                           child: const Center(

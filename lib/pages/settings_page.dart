@@ -27,12 +27,21 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurpleAccent,
+        elevation: 0,
+        title: Text(
+          'Welcome ' + user.email!,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
       body:  SettingsList(
         darkTheme: const SettingsThemeData(settingsListBackground: Colors.white),
         lightTheme: const SettingsThemeData(settingsListBackground: Colors.white),
         sections: [
           SettingsSection(
-            title: const Text('General'),
+            title: const Text('General',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurpleAccent),),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 leading: const Icon(Icons.language),
@@ -78,7 +87,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ],
           ),
           SettingsSection(
-            title: const Text('Account'),
+            title: const Text('Account',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurpleAccent),),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 leading: const Icon(Icons.search),

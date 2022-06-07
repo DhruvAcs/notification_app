@@ -19,7 +19,7 @@ class GetAction extends StatelessWidget {
       if (snapshot.connectionState == ConnectionState.done) {
         Map<String, dynamic> data = snapshot.data!.data() as Map<String,
             dynamic>;
-        return Text('Teacher: ${data['teacher']}' + '  |  ' 'Period: ${data['period']}' +'  |  '+ ' ${data['action']}');
+        return Text('${data['teacher']}' + '  |  ' 'Period: ${data['period']}' +'  |  '+ ' ${data['action']}');
       }
       return Text('loading...');
     }),

@@ -17,7 +17,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue[400],
+        backgroundColor: Colors.deepPurpleAccent[400],
         elevation: 0,
       ),
       body: Column(
@@ -42,7 +42,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.lightBlueAccent),
+                  borderSide: const BorderSide(color: Colors.deepPurpleAccent),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 hintText: 'Email',
@@ -81,7 +81,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
-            color: Colors.lightBlue[200],
+            color: Colors.deepPurpleAccent[200],
           ),
         ],
       ),

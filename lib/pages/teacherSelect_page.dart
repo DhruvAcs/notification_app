@@ -49,6 +49,7 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,26 +75,26 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
                     padding: EdgeInsets.all(25),
                     child: Column(children: <Widget>[
                       SizedBox(height: 10),
-                      MultiSelectDialogField(
+                      MultiSelectBottomSheetField(
                         items: _items,
                         title: Text("teacher"),
-                        selectedColor: Colors.lightBlue,
+                        selectedColor: Colors.deepPurpleAccent,
                         decoration: BoxDecoration(
-                          color: Colors.lightBlue.withOpacity(0.1),
+                          color: Colors.white.withOpacity(0.1),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           border: Border.all(
-                            color: Colors.lightBlue,
+                            color: Colors.deepPurpleAccent,
                             width: 2,
                           ),
                         ),
                         buttonIcon: Icon(
                           Icons.add,
-                          color: Colors.lightBlue,
+                          color: Colors.deepPurpleAccent,
                         ),
                         buttonText: Text(
                           "Teacher Select",
                           style: TextStyle(
-                            color: Colors.lightBlue[800],
+                            color: Colors.deepPurpleAccent[800],
                             fontSize: 16,
                           ),
                         ),
