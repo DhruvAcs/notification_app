@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:notification_app/pages/admin%20pages/admin_home_page.dart';
 import 'package:notification_app/pages/admin%20pages/input_page.dart';
 import 'package:notification_app/pages/forgot_pw_page.dart';
 import 'package:notification_app/pages/teacherSelect_page.dart';
@@ -106,7 +107,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 value: const Text('This will only work with admin permission accounts'),
                 onPressed: (context) {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => InputPage(),
+                    builder: (context) => AdminHomePage(),
                   ));
                 },
               ),

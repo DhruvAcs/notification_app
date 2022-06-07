@@ -1,21 +1,25 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notification_app/pages/admin%20pages/input_page.dart';
+import 'package:notification_app/pages/dashboard_page.dart';
+import 'package:notification_app/pages/home_page.dart';
 import 'package:notification_app/pages/settings_page.dart';
 import 'package:notification_app/pages/teacherSelect_page.dart';
-import 'dashboard_page.dart';
+
+import 'account_page.dart';
 
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class AdminHomePage extends StatefulWidget {
+  const AdminHomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AdminHomePage> createState() => _AdminHomePageState();
 }
 
 final user = FirebaseAuth.instance.currentUser!;
 
-class _HomePageState extends State<HomePage> {
+class _AdminHomePageState extends State<AdminHomePage> {
   late Widget _currentPage ;
 
   @override
@@ -26,6 +30,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurpleAccent,
+        title: const Text('Admin'),
+      ),
       backgroundColor: Colors.white,
       bottomNavigationBar: CurvedNavigationBar(
         onTap: (index){
@@ -34,10 +42,10 @@ class _HomePageState extends State<HomePage> {
               _currentPage = DashboardPage();
               break;
             case 1:
-              _currentPage = TeacherSelectPage();
+              _currentPage = InputPage();
               break;
             case 2:
-              _currentPage = SettingsPage();
+              _currentPage = AccountPage();
               break;
           }
           setState(() {
@@ -49,8 +57,8 @@ class _HomePageState extends State<HomePage> {
         animationDuration: const Duration(milliseconds: 450),
         items: const [
           Icon(Icons.dashboard, color: Colors.white,),
-          Icon(Icons.add, color:Colors.white),
-          Icon(Icons.settings, color:Colors.white),
+          Icon(Icons.edit, color:Colors.white),
+          Icon(Icons.person_search, color:Colors.white),
         ],
       ),
       body: _currentPage,

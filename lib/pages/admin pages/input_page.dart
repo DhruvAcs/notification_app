@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-
+import 'package:notification_app/pages/admin%20pages/admin_home_page.dart';
+import 'package:notification_app/pages/home_page.dart';
 
 class Teacher {
   final int id;
@@ -12,10 +13,8 @@ class Teacher {
   Teacher({
     required this.id,
     required this.name,
-  }
-      );
+  });
 }
-
 
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
@@ -32,7 +31,6 @@ class _InputPageState extends State<InputPage> {
     Teacher(id: 4, name: "teacher 4"),
     Teacher(id: 5, name: "teacher 5"),
     Teacher(id: 6, name: "teacher 6"),
-
   ];
   final _items = _teacher
       .map((teacher) => MultiSelectItem<Teacher>(teacher, teacher.name))
@@ -46,9 +44,8 @@ class _InputPageState extends State<InputPage> {
   final _multiSelectKey = GlobalKey<FormFieldState>();
 
   Future<void> deleteAll() async {
-    final collection = await FirebaseFirestore.instance
-        .collection("absentinfo")
-        .get();
+    final collection =
+        await FirebaseFirestore.instance.collection("absentinfo").get();
 
     final batch = FirebaseFirestore.instance.batch();
 
@@ -69,6 +66,7 @@ class _InputPageState extends State<InputPage> {
   final _periodController = TextEditingController();
   final ValueNotifier<DateTime?> dateSub = ValueNotifier(null);
   var teachers = [];
+
   @override
   void dispose() {
     _actionController.dispose();
@@ -88,10 +86,6 @@ class _InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
-        title: const Text('Admin'),
-      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -152,8 +146,8 @@ class _InputPageState extends State<InputPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors
-                            .deepPurpleAccent),
+                        borderSide:
+                            const BorderSide(color: Colors.deepPurpleAccent),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       hintText: 'action',
@@ -171,8 +165,8 @@ class _InputPageState extends State<InputPage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors
-                            .deepPurpleAccent),
+                        borderSide:
+                            const BorderSide(color: Colors.deepPurpleAccent),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       hintText: 'period',
@@ -196,16 +190,16 @@ class _InputPageState extends State<InputPage> {
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime(2050),
                                   currentDate: DateTime.now(),
-                                  initialEntryMode: DatePickerEntryMode.calendar,
+                                  initialEntryMode:
+                                      DatePickerEntryMode.calendar,
                                   initialDatePickerMode: DatePickerMode.day,
                                   builder: (context, child) {
                                     return Theme(
                                       data: Theme.of(context).copyWith(
                                           colorScheme: const ColorScheme.light(
-                                            primary: Colors.deepPurpleAccent,
-                                            onSurface: Colors.black,
-                                          )
-                                      ),
+                                        primary: Colors.deepPurpleAccent,
+                                        onSurface: Colors.black,
+                                      )),
                                       child: child!,
                                     );
                                   });
@@ -222,16 +216,17 @@ class _InputPageState extends State<InputPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       addTeacherabsence(
-                        _actionController.text.trim(),
-                        int.parse(_periodController.text.trim()),
-                          dateSub.value!
-
-                      );
+                          _actionController.text.trim(),
+                          int.parse(_periodController.text.trim()),
+                          dateSub.value!);
                       AlertDialog(
                         title: const Text("Saved"),
                       );
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AdminHomePage(),
+                      ));
                     },
                     child: Container(
                         width: 125,
@@ -252,14 +247,14 @@ class _InputPageState extends State<InputPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-                    onTap: (){
-                       deleteAll();
-                       AlertDialog(
-                         title: const Text("List deleted"),
-                       );
-
-
-
+                    onTap: () {
+                      deleteAll();
+                      AlertDialog(
+                        title: const Text("List deleted"),
+                      );
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AdminHomePage(),
+                      ));
                     },
                     child: Container(
                         width: 125,
@@ -281,19 +276,20 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
         ),
-      ),);
+      ),
+    );
   }
+
   String convertDate(DateTime dateTime) {
     return DateFormat('dd/MM/yyyy').format(dateTime);
   }
 
   String convertTime(TimeOfDay timeOfDay) {
-    DateTime tempDate = DateFormat('hh:mm').parse(
-        timeOfDay.hour.toString() + ':' + timeOfDay.minute.toString());
+    DateTime tempDate = DateFormat('hh:mm')
+        .parse(timeOfDay.hour.toString() + ':' + timeOfDay.minute.toString());
     var dateFormat = DateFormat('h:mm a');
     return dateFormat.format(tempDate);
   }
-
 
   Widget buildDateTimePicker(String data) {
     return Padding(
@@ -320,13 +316,15 @@ class _InputPageState extends State<InputPage> {
       decoration: InputDecoration(
         labelText: hint ?? '',
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.deepPurpleAccent, width: 1.5),
+          borderSide:
+              const BorderSide(color: Colors.deepPurpleAccent, width: 1.5),
           borderRadius: BorderRadius.circular(
             10.0,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.deepPurpleAccent, width: 1.5),
+          borderSide:
+              const BorderSide(color: Colors.deepPurpleAccent, width: 1.5),
           borderRadius: BorderRadius.circular(
             10.0,
           ),
@@ -334,7 +332,4 @@ class _InputPageState extends State<InputPage> {
       ),
     );
   }
-
 }
-
-
