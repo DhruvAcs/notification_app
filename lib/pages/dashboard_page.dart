@@ -20,11 +20,13 @@ class _DashboardPageState extends State<DashboardPage> {
         .orderBy('period', descending: false)
         .get()
         .then(
-          (snapshot) => snapshot.docs.forEach((document) {
-            print(document.reference);
+          (snapshot) => {
+            snapshot.docs.forEach((document) {
+            //print(document.reference);
             docIDs.add(document.reference.id);
-          }),
-        );
+            }),
+          }
+    );
   }
 
   @override
@@ -33,7 +35,7 @@ class _DashboardPageState extends State<DashboardPage> {
       body: Padding(
         padding: const EdgeInsets.all(7),
         child: Container(
-          margin: EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
+          margin: EdgeInsets.only(left: 5, top: 20, right: 5, bottom: 5),
           height: double.infinity,
           width: double.infinity,
           decoration: BoxDecoration(
@@ -69,9 +71,13 @@ class _DashboardPageState extends State<DashboardPage> {
                               padding: const EdgeInsets.all(5.0),
                               child: Container(
                                 constraints: BoxConstraints.expand(
-                                  height: Theme.of(context).textTheme.headline4!.fontSize! * 1.1 ,
+                                  height: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .headline4!
+                                      .fontSize! * 1.1,
                                 ),
-                                margin: const EdgeInsets.all(5.0),
+                                margin: const EdgeInsets.all(3.0),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.only(
@@ -85,13 +91,15 @@ class _DashboardPageState extends State<DashboardPage> {
                                       color: Colors.grey.withOpacity(0.5),
                                       spreadRadius: 5,
                                       blurRadius: 7,
-                                      offset: Offset(0, 3), // changes position of shadow
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
                                     ),
                                   ],),
 
 
                                 child: Center(
-                                    child: GetAction(documentId: docIDs[index])),//child = Container(list the parameters)
+                                    child: GetAction(
+                                        documentId: docIDs[index])), //child = Container(list the parameters)
 
                               ),
                             );

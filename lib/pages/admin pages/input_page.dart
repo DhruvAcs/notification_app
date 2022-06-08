@@ -4,17 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:notification_app/pages/admin%20pages/admin_home_page.dart';
-import 'package:notification_app/pages/home_page.dart';
 
-class Teacher {
-  final int id;
-  final String name;
-
-  Teacher({
-    required this.id,
-    required this.name,
-  });
-}
 
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
@@ -24,24 +14,10 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  static List<Teacher> _teacher = [
-    Teacher(id: 1, name: "teacher 1"),
-    Teacher(id: 2, name: "teacher 2"),
-    Teacher(id: 3, name: "teacher 3"),
-    Teacher(id: 4, name: "teacher 4"),
-    Teacher(id: 5, name: "teacher 5"),
-    Teacher(id: 6, name: "teacher 6"),
-  ];
-  final _items = _teacher
-      .map((teacher) => MultiSelectItem<Teacher>(teacher, teacher.name))
-      .toList();
+  static List<String> _teacher = [];
+  late final _items;
 
-  List<Teacher> _selectedTeacher = [];
-  List<Teacher> _selectedTeacher2 = [];
-  List<Teacher> _selectedTeacher3 = [];
-  List<Teacher> _selectedTeacher4 = [];
-  List<Teacher> _selectedTeacher5 = [];
-  final _multiSelectKey = GlobalKey<FormFieldState>();
+
 
   Future<void> deleteAll() async {
     final collection =
@@ -56,11 +32,6 @@ class _InputPageState extends State<InputPage> {
     return batch.commit();
   }
 
-  @override
-  void initState() {
-    _selectedTeacher5 = _teacher;
-    super.initState();
-  }
 
   final _actionController = TextEditingController();
   final _periodController = TextEditingController();
@@ -75,12 +46,33 @@ class _InputPageState extends State<InputPage> {
   }
 
   Future addTeacherabsence(String action, int period, DateTime date) async {
-    await FirebaseFirestore.instance.collection('absentinfo').add({
+    for(String teacher in teachers) {
+      await FirebaseFirestore.instance.collection('absentinfo').add({
       'action': action,
       'period': period,
       'date': date,
-      'teacher': 'ee',
+      'teacher': teacher,
     });
+    }
+  }
+  void getTeacherList() async {
+    FirebaseFirestore.instance.collection('teacherlist').get().then((QuerySnapshot qs){
+      qs.docs.forEach((doc) {_teacher.add(doc['teacher']); });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _teacher.clear();
+    getTeacherList();
+    _items = _teacher
+        .map((teacher) => MultiSelectItem<String>(teacher,teacher))
+        .toList();
+    // for(String teacher in _teacher){
+    //   _items.add(MultiSelectItem(teacher, teacher));
+    // }
+    print('i' + _items);
   }
 
   @override
@@ -113,7 +105,7 @@ class _InputPageState extends State<InputPage> {
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             border: Border.all(
                               color: Colors.black12,
-                              width: 2,
+                              width: 1,
                             ),
                           ),
                           buttonIcon: Icon(
@@ -129,7 +121,7 @@ class _InputPageState extends State<InputPage> {
                           ),
                           onConfirm: (results) {
                             teachers = results;
-                            print(teachers);
+                            //print(results);
                           },
                         ),
                         SizedBox(height: 10),
