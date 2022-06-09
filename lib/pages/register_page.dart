@@ -23,8 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _lastNameController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   String errorMessage = '';
-
-
+  final instance = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -37,31 +36,40 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future signUp() async {
+    print ('signup');
     if (_key.currentState!.validate()) {
+      print('validate');
       //create user for auth
       if (passwordConfirmed()) {
         try {
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          print ('pass');
+          await instance.createUserWithEmailAndPassword(
               email: _emailController.text.trim(),
               password: _passwordController.text.trim());
-        }on FirebaseAuthException catch (error){
-          errorMessage = error.message!;
+        } on FirebaseAuthException catch (error) {
+          errorMessage = error.code;
+          print(errorMessage);
+          setState(() {});
+          return;
         }
 
-          //user details
-        addUserDetails(_firstNameController.text.trim(), _lastNameController.text.trim(), _emailController.text.trim());
-
-        }
+        //user details
+        addUserDetails(_firstNameController.text.trim(),
+            _lastNameController.text.trim(), _emailController.text.trim());
       }
     }
+  }
 
-   Future addUserDetails(String firstName, String lastName, String email) async{
-    await FirebaseFirestore.instance.collection('users').add({
+  Future addUserDetails(String firstName, String lastName, String email) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(instance.currentUser?.uid)
+        .set({
       'firstname': firstName,
       'lastname': lastName,
-      'email':email,
+      'email': email,
     });
-   }
+  }
 
   bool passwordConfirmed() {
     if (_passwordController.text.trim() ==
@@ -107,7 +115,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
+                          borderSide:
+                              const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'First Name',
@@ -129,7 +138,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
+                          borderSide:
+                              const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Last Name',
@@ -152,7 +162,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
+                          borderSide:
+                              const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Email',
@@ -176,7 +187,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
+                          borderSide:
+                              const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Password',
@@ -199,7 +211,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
+                          borderSide:
+                              const BorderSide(color: Colors.deepPurpleAccent),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Confirm Password',
@@ -266,6 +279,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
+
 String? validateEmail(String? formEmail) {
   if (formEmail == null || formEmail.isEmpty)
     return 'E-mail address is required.';
@@ -278,7 +292,8 @@ String? validateEmail(String? formEmail) {
 }
 
 String? validatePassword(String? formPassword) {
-  if (formPassword == null || formPassword.isEmpty) return 'Password is required.';
+  if (formPassword == null || formPassword.isEmpty)
+    return 'Password is required.';
 
   String pattern =
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';

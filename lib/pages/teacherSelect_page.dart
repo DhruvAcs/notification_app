@@ -53,7 +53,7 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(20.0),
               child: Align(
                 alignment: Alignment.center,
                 child: Padding(
