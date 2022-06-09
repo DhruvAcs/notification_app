@@ -4,7 +4,6 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notification_app/read%20data/get_teacher.dart';
 
-
 class TeacherSelectPage extends StatefulWidget {
   const TeacherSelectPage({Key? key}) : super(key: key);
 
@@ -14,7 +13,7 @@ class TeacherSelectPage extends StatefulWidget {
 
 class _TeacherSelectPageState extends State<TeacherSelectPage> {
   static List<String> _teacher = [];
-  List<MultiSelectItem<String>> _items= [];
+  List<MultiSelectItem<String>> _items = [];
 
   // document IDS for teachers
   List<String> tdocsIDs = [];
@@ -31,14 +30,12 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
         tdocsIDs.add(element.reference.id);
       });
       _items = _teacher
-          .map((teacher) => MultiSelectItem<String>(teacher,teacher))
+          .map((teacher) => MultiSelectItem<String>(teacher, teacher))
           .toList();
-      print('i'+ _items.toString() );
-      print('t'+ _teacher.toString());
+      // print('i'+ _items.toString() );
+      // print('t'+ _teacher.toString());
       //print(tdocsIDs);
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
 
@@ -46,9 +43,7 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
   void initState() {
     _teacher.clear();
     getTDocId();
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +53,7 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: Align(
                 alignment: Alignment.center,
                 child: Padding(
@@ -71,13 +66,11 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
             SingleChildScrollView(
               child: Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.all(25),
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   child: Column(children: <Widget>[
-                    SizedBox(height: 10),
                     MultiSelectBottomSheetField(
                       items: _items,
                       title: Text("teacher"),
@@ -103,17 +96,45 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
                       ),
                       onConfirm: (results) {},
                     ),
-                    SizedBox(height: 10),
                   ])),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: tdocsIDs.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: GetTeacher(elementId: tdocsIDs[index]),
-                  );
-                },
+            Container(
+              child: Expanded(
+                child: ListView.builder(
+                  itemCount: tdocsIDs.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Container(
+                        constraints: BoxConstraints.expand(
+                          height:
+                              Theme.of(context).textTheme.headline4!.fontSize! *
+                                  1.1,
+                        ),
+                        margin: const EdgeInsets.all(3.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                            child: GetTeacher(elementId: tdocsIDs[index])),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ],

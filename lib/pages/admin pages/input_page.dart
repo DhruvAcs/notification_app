@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:notification_app/pages/admin%20pages/admin_home_page.dart';
-
+import 'package:notification_app/read%20data/get_teacher.dart';
 
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
@@ -15,9 +15,35 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   static List<String> _teacher = [];
-  late final _items;
+  List<MultiSelectItem<String>> _items = [];
 
+  List<String> tdocsIDs = [];
 
+  Future getTDocId() async {
+    await FirebaseFirestore.instance
+        .collection('teacherlist')
+        .get()
+        .then((snapshot) {
+      snapshot.docs.forEach((element) {
+        _teacher.add(element['teacher']);
+        //print(element.reference);
+        tdocsIDs.add(element.reference.id);
+      });
+      _items = _teacher
+          .map((teacher) => MultiSelectItem<String>(teacher, teacher))
+          .toList();
+      // print('i'+ _items.toString() );
+      // print('t'+ _teacher.toString());
+      //print(tdocsIDs);
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    _teacher.clear();
+    getTDocId();
+  }
 
   Future<void> deleteAll() async {
     final collection =
@@ -32,7 +58,6 @@ class _InputPageState extends State<InputPage> {
     return batch.commit();
   }
 
-
   final _actionController = TextEditingController();
   final _periodController = TextEditingController();
   final ValueNotifier<DateTime?> dateSub = ValueNotifier(null);
@@ -46,34 +71,27 @@ class _InputPageState extends State<InputPage> {
   }
 
   Future addTeacherabsence(String action, int period, DateTime date) async {
-    for(String teacher in teachers) {
+    for (String teacher in teachers) {
       await FirebaseFirestore.instance.collection('absentinfo').add({
-      'action': action,
-      'period': period,
-      'date': date,
-      'teacher': teacher,
-    });
+        'action': action,
+        'period': period,
+        'date': date,
+        'teacher': teacher,
+      });
     }
   }
+
   void getTeacherList() async {
-    FirebaseFirestore.instance.collection('teacherlist').get().then((QuerySnapshot qs){
-      qs.docs.forEach((doc) {_teacher.add(doc['teacher']); });
+    FirebaseFirestore.instance
+        .collection('teacherlist')
+        .get()
+        .then((QuerySnapshot qs) {
+      qs.docs.forEach((doc) {
+        _teacher.add(doc['teacher']);
+      });
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _teacher.clear();
-    getTeacherList();
-    _items = _teacher
-        .map((teacher) => MultiSelectItem<String>(teacher,teacher))
-        .toList();
-    // for(String teacher in _teacher){
-    //   _items.add(MultiSelectItem(teacher, teacher));
-    // }
-    print('i' + _items);
-  }
 
   @override
   Widget build(BuildContext context) {
