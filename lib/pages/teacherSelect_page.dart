@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notification_app/read%20data/get_teacher.dart';
 
 class TeacherSelectPage extends StatefulWidget {
   const TeacherSelectPage({Key? key}) : super(key: key);
@@ -12,78 +12,91 @@ class TeacherSelectPage extends StatefulWidget {
 }
 
 class _TeacherSelectPageState extends State<TeacherSelectPage> {
-  static List<String> _teacher = [];
-  List<MultiSelectItem<String>> _items = [];
+  static final List<String> _teacherNames = [];
+  final List<MultiSelectItem<String>> _items = [];
+  // final List<MultiSelectItem<String>> _initialSelectedItems = [];
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseAuth instance = FirebaseAuth.instance;
 
   // document IDS for teachers
-  List<String> tdocsIDs = [];
+  final List<String> _teacherDocIds = [];
+
+  List<String> _savedTeachers = [];
+  List<String> _savedTeacherNames = ['No Saved Teachers'];
 
   //get teacher docids
   Future getTDocId() async {
-    await FirebaseFirestore.instance
-        .collection('teacherlist')
-        .get()
-        .then((snapshot) {
-      snapshot.docs.forEach((element) {
-        _teacher.add(element['teacher']);
-        //print(element.reference);
-        tdocsIDs.add(element.reference.id);
-      });
-      _items = _teacher
-          .map((teacher) => MultiSelectItem<String>(teacher, teacher))
-          .toList();
-      // print('i'+ _items.toString() );
-      // print('t'+ _teacher.toString());
-      //print(tdocsIDs);
+    await firestore.collection('teacherlist').get().then((snapshot) {
+      for (var element in snapshot.docs) {
+        _teacherNames.add(element['prefix'] + element['lastName']);
+        _teacherDocIds.add(element.reference.id);
+      }
+      for (int i = 0; i < _teacherDocIds.length; i++) {
+        _items.add(MultiSelectItem<String>(_teacherDocIds[i], _teacherNames[i]));
+      }
+      setState(() {});
+    });
+
+  }
+
+  Future getSavedTeachers() async {
+    _savedTeachers.clear();
+    _savedTeacherNames.clear();
+    await firestore.collection('users').doc(instance.currentUser?.uid).get().then((value) {
+      _savedTeachers = List<String>.from(value.data()!['savedteachers']);
+      setState(() {});
+    });
+    if (_savedTeachers.isEmpty) {_savedTeacherNames = ['No Saved Teachers']; setState(() {}); return;}
+    await firestore.collection('teacherlist').where(FieldPath.documentId, whereIn: _savedTeachers).get().then((QuerySnapshot qs) {
+      for (var element in qs.docs) {
+        _savedTeacherNames.add(element['prefix'] + element['lastName']);
+      }
       setState(() {});
     });
   }
 
   @override
   void initState() {
-    _teacher.clear();
-    getTDocId();
+    super.initState();
+    getSavedTeachers().then((e) => getTDocId());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: Padding (
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 5.0),
-                  child: Text(
-                    'Select the teachers you would like to see in your dashboard and get notified when they are absent and what to do!',
-                    style: GoogleFonts.bebasNeue(fontSize: 20),
-                  ),
-                ),
-              ),
+            const SizedBox(height: 40,),
+            Text(
+              'Select the teachers you would like to see in your dashboard and get notified when they are absent and what to do!',
+              style: GoogleFonts.bebasNeue(fontSize: 20),
             ),
+            const SizedBox(height: 10,),
             SingleChildScrollView(
               child: Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   child: Column(children: <Widget>[
-                    MultiSelectBottomSheetField(
+                    MultiSelectBottomSheetField<String?>(
+                      // initialValue: _savedTeachers,
+                      searchable: true,
                       items: _items,
-                      title: Text("teacher"),
+                      title: const Text("teacher"),
                       selectedColor: Colors.deepPurpleAccent,
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         border: Border.all(
                           color: Colors.deepPurpleAccent,
                           width: 2,
                         ),
                       ),
-                      buttonIcon: Icon(
+                      buttonIcon: const Icon(
                         Icons.add,
                         color: Colors.deepPurpleAccent,
                       ),
@@ -94,47 +107,55 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
                           fontSize: 16,
                         ),
                       ),
-                      onConfirm: (results) {},
+                      onConfirm: (results) {
+                        firestore.collection('users').doc(instance.currentUser?.uid).update({'savedteachers': results});
+                        getSavedTeachers();
+                      },
                     ),
                   ])),
             ),
-            Container(
-              child: Expanded(
-                child: ListView.builder(
-                  itemCount: tdocsIDs.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Container(
-                        constraints: BoxConstraints.expand(
-                          height:
-                              Theme.of(context).textTheme.headline4!.fontSize! *
-                                  1.1,
-                        ),
-                        margin: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                            child: GetTeacher(elementId: tdocsIDs[index])),
+            const SizedBox(height: 40,),
+            Text(
+              'Your Selected Teachers:',
+              style: GoogleFonts.bebasNeue(fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _savedTeacherNames.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Container(
+                      constraints: BoxConstraints.expand(
+                        height:
+                            Theme.of(context).textTheme.headline4!.fontSize! *
+                                1.1,
                       ),
-                    );
-                  },
-                ),
+                      margin: const EdgeInsets.all(3.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(_savedTeacherNames[index])
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],

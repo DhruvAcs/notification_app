@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:notification_app/pages/admin%20pages/admin_home_page.dart';
-import 'package:notification_app/read%20data/get_teacher.dart';
 
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
@@ -14,34 +13,28 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  static List<String> _teacher = [];
-  List<MultiSelectItem<String>> _items = [];
+  static final List<String> _teacherNames = [];
+  final List<MultiSelectItem<String>> _items = [];
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  List<String> tdocsIDs = [];
+  final List<String> _teacherDocIds = [];
 
   Future getTDocId() async {
-    await FirebaseFirestore.instance
-        .collection('teacherlist')
-        .get()
-        .then((snapshot) {
-      snapshot.docs.forEach((element) {
-        _teacher.add(element['teacher']);
-        //print(element.reference);
-        tdocsIDs.add(element.reference.id);
-      });
-      _items = _teacher
-          .map((teacher) => MultiSelectItem<String>(teacher, teacher))
-          .toList();
-      // print('i'+ _items.toString() );
-      // print('t'+ _teacher.toString());
-      //print(tdocsIDs);
+    await firestore.collection('teacherlist').get().then((snapshot) {
+      for (var element in snapshot.docs) {
+        _teacherNames.add(element['prefix'] + element['lastName']);
+        _teacherDocIds.add(element.reference.id);
+      }
+      for (int i = 0; i < _teacherDocIds.length; i++) {
+        _items.add(MultiSelectItem<String>(_teacherDocIds[i], _teacherNames[i]));
+      }
       setState(() {});
     });
   }
 
   @override
   void initState() {
-    _teacher.clear();
+    super.initState();
     getTDocId();
   }
 
@@ -61,7 +54,7 @@ class _InputPageState extends State<InputPage> {
   final _actionController = TextEditingController();
   final _periodController = TextEditingController();
   final ValueNotifier<DateTime?> dateSub = ValueNotifier(null);
-  var teachers = [];
+  var _selectedTeacherIds = [];
 
   @override
   void dispose() {
@@ -70,13 +63,13 @@ class _InputPageState extends State<InputPage> {
     super.dispose();
   }
 
-  Future addTeacherabsence(String action, int period, DateTime date) async {
-    for (String teacher in teachers) {
+  Future addTeacherAbsence(String action, int period, DateTime date) async {
+    for (String teacher in _selectedTeacherIds) {
       await FirebaseFirestore.instance.collection('absentinfo').add({
         'action': action,
         'period': period,
         'date': date,
-        'teacher': teacher,
+        'teacherid': teacher,
       });
     }
   }
@@ -86,9 +79,9 @@ class _InputPageState extends State<InputPage> {
         .collection('teacherlist')
         .get()
         .then((QuerySnapshot qs) {
-      qs.docs.forEach((doc) {
-        _teacher.add(doc['teacher']);
-      });
+      for (var doc in qs.docs) {
+        _teacherNames.add(doc['teacher']);
+      }
     });
   }
 
@@ -111,26 +104,26 @@ class _InputPageState extends State<InputPage> {
                 SingleChildScrollView(
                   child: Container(
                       alignment: Alignment.center,
-                      padding: EdgeInsets.all(25),
+                      padding: const EdgeInsets.all(25),
                       child: Column(children: <Widget>[
-                        SizedBox(height: 10),
-                        MultiSelectBottomSheetField(
+                        const SizedBox(height: 10),
+                        MultiSelectBottomSheetField<String?>(
                           items: _items,
-                          title: Text("teacher"),
-                          selectedColor: Colors.black12,
+                          title: const Text("teacher"),
+                          selectedColor: Colors.deepPurpleAccent,
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.1),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
                             border: Border.all(
                               color: Colors.black12,
                               width: 1,
                             ),
                           ),
-                          buttonIcon: Icon(
+                          buttonIcon: const Icon(
                             Icons.add,
                             color: Colors.deepPurpleAccent,
                           ),
-                          buttonText: Text(
+                          buttonText: const Text(
                             "Teacher select",
                             style: TextStyle(
                               color: Colors.black,
@@ -138,11 +131,11 @@ class _InputPageState extends State<InputPage> {
                             ),
                           ),
                           onConfirm: (results) {
-                            teachers = results;
+                            _selectedTeacherIds = results;
                             //print(results);
                           },
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                       ])),
                 ),
 
@@ -227,15 +220,15 @@ class _InputPageState extends State<InputPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      addTeacherabsence(
+                      addTeacherAbsence(
                           _actionController.text.trim(),
                           int.parse(_periodController.text.trim()),
                           dateSub.value!);
-                      AlertDialog(
-                        title: const Text("Saved"),
+                      const AlertDialog(
+                        title: Text("Saved"),
                       );
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AdminHomePage(),
+                        builder: (context) => const AdminHomePage(),
                       ));
                     },
                     child: Container(
@@ -259,11 +252,11 @@ class _InputPageState extends State<InputPage> {
                   child: GestureDetector(
                     onTap: () {
                       deleteAll();
-                      AlertDialog(
-                        title: const Text("List deleted"),
+                      const AlertDialog(
+                        title: Text("List deleted"),
                       );
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AdminHomePage(),
+                        builder: (context) => const AdminHomePage(),
                       ));
                     },
                     child: Container(

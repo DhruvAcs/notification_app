@@ -12,17 +12,22 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  final _teachercontroller = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  String dropdownValue = 'Mr. ';
 
   @override
   void dispose() {
-    _teachercontroller.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     super.dispose();
   }
 
-  Future addTeacherList(String teacher,) async {
+  Future addTeacherList() async {
     await FirebaseFirestore.instance.collection('teacherlist').add({
-      'teacher': teacher,
+      'prefix': dropdownValue,
+      'firstName': _firstNameController.text.trim(),
+      'lastName': _lastNameController.text.trim(),
     });
   }
 
@@ -43,8 +48,20 @@ class _AccountPageState extends State<AccountPage> {
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: DropdownButton(
+                    items: <String>['Mr. ', 'Ms. ','Mrs. ', 'Mx. '].map<DropdownMenuItem<String>>((String value) => DropdownMenuItem<String>(value: value, child: Text(value),)).toList(),
+                    onChanged: (String? value) {
+                      dropdownValue = value!;
+                      setState(() {});
+                    },
+                    value: dropdownValue,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: TextField(
-                    controller: _teachercontroller,
+                    controller: _firstNameController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.black12),
@@ -55,7 +72,26 @@ class _AccountPageState extends State<AccountPage> {
                         const BorderSide(color: Colors.deepPurpleAccent),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      hintText: 'teacher',
+                      label: const Text('First Name'),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextField(
+                    controller: _lastNameController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black12),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        const BorderSide(color: Colors.deepPurpleAccent),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      label: const Text('Last Name'),
                     ),
                   ),
                 ),
@@ -65,12 +101,9 @@ class _AccountPageState extends State<AccountPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      addTeacherList(
-                          _teachercontroller.text.trim(),
-                      );
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AdminHomePage(),
-                      ));
+                      addTeacherList();
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const AdminHomePage()));
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AdminHomePage(),));
                     },
                     child: Container(
                         width: 125,
