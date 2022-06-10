@@ -4,55 +4,35 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notification_app/read%20data/get_action.dart';
 
-class DashboardPage extends StatefulWidget {
-  const DashboardPage({Key? key}) : super(key: key);
+class AdminDashboardPage extends StatefulWidget {
+  const AdminDashboardPage({Key? key}) : super(key: key);
 
   @override
-  State<DashboardPage> createState() => _DashboardPageState();
+  State<AdminDashboardPage> createState() => _AdminDashboardPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
+class _AdminDashboardPageState extends State<AdminDashboardPage> {
   final List<String> _docIDs = [];
-  bool _switchValue = false;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth instance = FirebaseAuth.instance;
 
-  List<String> _savedTeachers = [];
-
   Future getDocId() async {
     _docIDs.clear();
-    if (_switchValue) {
-      await firestore
+    await firestore
         .collection('absentinfo')
         .orderBy('period', descending: false)
         .get()
         .then((snapshot) {
-          for (QueryDocumentSnapshot document in snapshot.docs) {
-            _docIDs.add(document.reference.id);
-          }
+      for (QueryDocumentSnapshot document in snapshot.docs) {
+        _docIDs.add(document.reference.id);
+      }
 
-        });
-    }
-    else {
-      _savedTeachers.clear();
-      await firestore.collection('users').doc(instance.currentUser?.uid).get().then((value) {
-        _savedTeachers = List<String>.from(value.data()!['savedteachers']);
-      });
-      // print(_savedTeachers);
-      if (_savedTeachers.isEmpty) {return;}
-      await firestore.collection('absentinfo').where('teacherid', whereIn: _savedTeachers).get().then((QuerySnapshot qs) {
-        for (var element in qs.docs) {
-          _docIDs.add(element.reference.id);
-        }
-      });
-      // print(_docIDs);
-    }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Padding(
         padding: const EdgeInsets.all(7),
         child: Column(
@@ -60,24 +40,15 @@ class _DashboardPageState extends State<DashboardPage> {
           children: [
             const SizedBox(height: 20,),
             Text(
-              'Dashboard',
+              'Admin Dashboard',
               style: GoogleFonts.bebasNeue(
                   fontWeight: FontWeight.bold, fontSize: 25),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20,),
-            const Text('Show all teachers',),
-            Switch(
-              value: _switchValue,
-              onChanged: (newValue) {
-                _switchValue = newValue;
-                setState(() {});
-              },
-              activeColor: Colors.deepPurpleAccent,
-            ),
             Container(
               margin:
-                  const EdgeInsets.only(left: 5, top: 20, right: 5, bottom: 5),
+              const EdgeInsets.only(left: 5, top: 20, right: 5, bottom: 5),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.deepPurpleAccent),
                 color: Colors.white,
@@ -109,9 +80,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                   child: Container(
                                     constraints: BoxConstraints.expand(
                                       height: Theme.of(context)
-                                              .textTheme
-                                              .headline4!
-                                              .fontSize! *
+                                          .textTheme
+                                          .headline4!
+                                          .fontSize! *
                                           1.1,
                                     ),
                                     margin: const EdgeInsets.all(3.0),

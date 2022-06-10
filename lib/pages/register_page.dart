@@ -56,15 +56,17 @@ class _RegisterPageState extends State<RegisterPage> {
           return;
         }
 
-        // await FirebaseFirestore.instance
-        //     .collection('users')
-        //     .doc(instance.currentUser?.uid)
-        //     .set({
-        //   'firstname': _firstNameController.text.trim(),
-        //   'lastname': _lastNameController.text.trim(),
-        //   'email': _emailController.text.trim(),
-        //   'savedteachers': [],
-        // });
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(instance.currentUser?.uid)
+            .set({
+          'firstname': _firstNameController.text.trim(),
+          'lastname': _lastNameController.text.trim(),
+          'email': _emailController.text.trim(),
+          'savedteachers': [],
+        });
+
         // Navigator.of(context).push(
         //   MaterialPageRoute(
         //     builder: (context) => VerifyPage(),
@@ -79,17 +81,17 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
 
-  Future addUserDetails(String firstName, String lastName, String email) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(instance.currentUser?.uid)
-        .set({
-      'firstname': firstName,
-      'lastname': lastName,
-      'email': email,
-      'savedteachers': [],
-    });
-  }
+  // Future addUserDetails(String firstName, String lastName, String email) async {
+  //   await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(instance.currentUser?.uid)
+  //       .set({
+  //     'firstname': firstName,
+  //     'lastname': lastName,
+  //     'email': email,
+  //     'savedteachers': [],
+  //   });
+  // }
 
   bool passwordConfirmed() {
     if (_passwordController.text.trim() ==
@@ -318,7 +320,7 @@ String? validatePassword(String? formPassword) {
   }
 
   String pattern =
-      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+      r'^(?=.?[A-Z])(?=.?[a-z])(?=.*?[0-9]).{8,}$';
   RegExp regex = RegExp(pattern);
   if (!regex.hasMatch(formPassword)) {
     return '''

@@ -16,8 +16,7 @@ class GetTeacher extends StatelessWidget {
     return FutureBuilder<DocumentSnapshot>(future: teacher.doc(elementId).get(),
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data!.data() as Map<String,
-              dynamic>;
+          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
           return Text('${data['teacher']}');
         }
         return const Text('loading...');

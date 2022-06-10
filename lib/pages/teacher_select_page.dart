@@ -14,7 +14,6 @@ class TeacherSelectPage extends StatefulWidget {
 class _TeacherSelectPageState extends State<TeacherSelectPage> {
   static final List<String> _teacherNames = [];
   final List<MultiSelectItem<String>> _items = [];
-  // final List<MultiSelectItem<String>> _initialSelectedItems = [];
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth instance = FirebaseAuth.instance;
 
@@ -77,42 +76,66 @@ class _TeacherSelectPageState extends State<TeacherSelectPage> {
             const SizedBox(height: 10,),
             SingleChildScrollView(
               child: Container(
-                  alignment: Alignment.center,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                  child: Column(children: <Widget>[
-                    MultiSelectBottomSheetField<String?>(
-                      // initialValue: _savedTeachers,
-                      searchable: true,
-                      items: _items,
-                      title: const Text("teacher"),
-                      selectedColor: Colors.deepPurpleAccent,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(
-                          color: Colors.deepPurpleAccent,
-                          width: 2,
-                        ),
-                      ),
-                      buttonIcon: const Icon(
-                        Icons.add,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      buttonText: Text(
-                        "Teacher Select",
-                        style: TextStyle(
-                          color: Colors.deepPurpleAccent[800],
-                          fontSize: 16,
-                        ),
-                      ),
-                      onConfirm: (results) {
-                        firestore.collection('users').doc(instance.currentUser?.uid).update({'savedteachers': results});
-                        getSavedTeachers();
+                alignment: Alignment.center,
+                padding:const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                child: Column(
+                  children: <Widget>[
+                    FutureBuilder<DocumentSnapshot>(
+                      future: firestore.collection('users').doc(instance.currentUser?.uid).get(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                          List<String> _initialSelectedItems = [];
+
+                          for (String teacher in data['savedteachers']) {
+                            _initialSelectedItems.add(teacher);
+                          }
+                          return MultiSelectDialogField<String?>(
+                            initialValue: _initialSelectedItems,
+                            searchable: true,
+                            items: _items,
+                            title: const Text("teacher"),
+                            selectedColor: Colors.deepPurpleAccent,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.1),
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: Colors.deepPurpleAccent,
+                                width: 2,
+                              ),
+                            ),
+                            buttonIcon: const Icon(
+                              Icons.add,
+                              color: Colors.deepPurpleAccent,
+                            ),
+                            buttonText: Text(
+                              "Teacher Select",
+                              style: TextStyle(
+                                color: Colors.deepPurpleAccent[800],
+                                fontSize: 16,
+                              ),
+                            ),
+                            onConfirm: (results) {
+                              firestore.collection('users').doc(
+                                  instance.currentUser?.uid).update(
+                                  {'savedteachers': results});
+                              getSavedTeachers();
+                            },
+                            onSelectionChanged: (results) {
+                              firestore.collection('users').doc(
+                                  instance.currentUser?.uid).update(
+                                  {'savedteachers': results});
+                            },
+
+                          );
+                        }
+                        return const Text('Loading...');
                       },
-                    ),
-                  ])),
+                    )
+                  ],
+                ),
+              ),
             ),
             const SizedBox(height: 40,),
             Text(

@@ -20,6 +20,8 @@ class _InputPageState extends State<InputPage> {
   final List<String> _teacherDocIds = [];
 
   Future getTDocId() async {
+    _teacherDocIds.clear();
+    _teacherNames.clear();
     await firestore.collection('teacherlist').get().then((snapshot) {
       for (var element in snapshot.docs) {
         _teacherNames.add(element['prefix'] + element['lastName']);
@@ -107,7 +109,7 @@ class _InputPageState extends State<InputPage> {
                       padding: const EdgeInsets.all(25),
                       child: Column(children: <Widget>[
                         const SizedBox(height: 10),
-                        MultiSelectBottomSheetField<String?>(
+                        MultiSelectDialogField<String?>(
                           items: _items,
                           title: const Text("teacher"),
                           selectedColor: Colors.deepPurpleAccent,
