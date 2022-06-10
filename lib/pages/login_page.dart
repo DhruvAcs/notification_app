@@ -34,6 +34,8 @@ class _LoginPageState extends State<LoginPage> {
         );
       } on FirebaseAuthException catch (error) {
         errorMessage= error.message!;
+        setState(() {});
+        return;
       }
       //Loading circle
       showDialog(context: context, builder: (context) {

@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:notification_app/Auth/verify_page.dart';
+
+import 'home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -36,13 +39,13 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future signUp() async {
-    print ('signup');
+    print('signup');
     if (_key.currentState!.validate()) {
       print('validate');
       //create user for auth
       if (passwordConfirmed()) {
         try {
-          print ('pass');
+          print('pass');
           await instance.createUserWithEmailAndPassword(
               email: _emailController.text.trim(),
               password: _passwordController.text.trim());
@@ -53,12 +56,28 @@ class _RegisterPageState extends State<RegisterPage> {
           return;
         }
 
-        //user details
-        addUserDetails(_firstNameController.text.trim(),
-            _lastNameController.text.trim(), _emailController.text.trim());
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(instance.currentUser?.uid)
+            .set({
+          'firstname': _firstNameController.text.trim(),
+          'lastname': _lastNameController.text.trim(),
+          'email': _emailController.text.trim(),
+          'savedteachers': [],
+        });
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => VerifyPage(),
+          ),
+        ).then((value){
+          if (!user.emailVerified){
+
+          };
+        });
       }
     }
   }
+
 
   Future addUserDetails(String firstName, String lastName, String email) async {
     await FirebaseFirestore.instance
@@ -68,6 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'firstname': firstName,
       'lastname': lastName,
       'email': email,
+      'savedteachers': [],
     });
   }
 
