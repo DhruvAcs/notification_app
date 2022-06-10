@@ -31,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
         backgroundColor: Colors.deepPurpleAccent,
         elevation: 0,
         title: Text(
-          'Welcome ' + user.email!,
+          user.email!,
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 16),
         ),

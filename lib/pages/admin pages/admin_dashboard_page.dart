@@ -68,7 +68,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(
-                      height: 550,
+                      height: 500,
                       child: FutureBuilder(
                           future: getDocId(),
                           builder: (context, snapshot) {
