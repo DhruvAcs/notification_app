@@ -3,9 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notification_app/pages/admin%20pages/input_page.dart';
 import 'package:notification_app/pages/dashboard_page.dart';
-import 'package:notification_app/pages/home_page.dart';
-import 'package:notification_app/pages/settings_page.dart';
-import 'package:notification_app/pages/teacherSelect_page.dart';
 
 import 'account_page.dart';
 
@@ -24,7 +21,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   @override
   void initState() {
-    _currentPage = DashboardPage();
+    _currentPage = const DashboardPage();
     super.initState();
   }
   @override
@@ -39,13 +36,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
         onTap: (index){
           switch (index){
             case 0:
-              _currentPage = DashboardPage();
+              _currentPage = const DashboardPage();
               break;
             case 1:
-              _currentPage = InputPage();
+              _currentPage = const InputPage();
               break;
             case 2:
-              _currentPage = AccountPage();
+              _currentPage = const AccountPage();
               break;
           }
           setState(() {

@@ -12,7 +12,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  List<String> _docIDs = [];
+  final List<String> _docIDs = [];
   bool _switchValue = false;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth instance = FirebaseAuth.instance;
@@ -26,11 +26,11 @@ class _DashboardPageState extends State<DashboardPage> {
         .collection('absentinfo')
         .orderBy('period', descending: false)
         .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((document) {
-            //print(document.reference);
+        .then((snapshot) {
+          for (QueryDocumentSnapshot document in snapshot.docs) {
             _docIDs.add(document.reference.id);
-          }),
+          }
+
         });
     }
     else {

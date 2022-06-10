@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notification_app/Auth/verify_page.dart';
-
-import 'home_page.dart';
+// import 'package:notification_app/Auth/verify_page.dart';
+//
+// import 'home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -39,41 +39,41 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future signUp() async {
-    print('signup');
+    // print('signup');
     if (_key.currentState!.validate()) {
-      print('validate');
+      // print('validate');
       //create user for auth
       if (passwordConfirmed()) {
         try {
-          print('pass');
+          // print('pass');
           await instance.createUserWithEmailAndPassword(
               email: _emailController.text.trim(),
               password: _passwordController.text.trim());
         } on FirebaseAuthException catch (error) {
           errorMessage = error.code;
-          print(errorMessage);
+          // print(errorMessage);
           setState(() {});
           return;
         }
 
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(instance.currentUser?.uid)
-            .set({
-          'firstname': _firstNameController.text.trim(),
-          'lastname': _lastNameController.text.trim(),
-          'email': _emailController.text.trim(),
-          'savedteachers': [],
-        });
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => VerifyPage(),
-          ),
-        ).then((value){
-          if (!user.emailVerified){
-
-          };
-        });
+        // await FirebaseFirestore.instance
+        //     .collection('users')
+        //     .doc(instance.currentUser?.uid)
+        //     .set({
+        //   'firstname': _firstNameController.text.trim(),
+        //   'lastname': _lastNameController.text.trim(),
+        //   'email': _emailController.text.trim(),
+        //   'savedteachers': [],
+        // });
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (context) => VerifyPage(),
+        //   ),
+        // ).then((value){
+        //   if (!user.emailVerified){
+        //
+        //   };
+        // });
       }
     }
   }
@@ -301,8 +301,9 @@ class _RegisterPageState extends State<RegisterPage> {
 }
 
 String? validateEmail(String? formEmail) {
-  if (formEmail == null || formEmail.isEmpty)
+  if (formEmail == null || formEmail.isEmpty) {
     return 'E-mail address is required.';
+  }
 
   String pattern = r'\w+@\w+\.\w+';
   RegExp regex = RegExp(pattern);
@@ -312,17 +313,19 @@ String? validateEmail(String? formEmail) {
 }
 
 String? validatePassword(String? formPassword) {
-  if (formPassword == null || formPassword.isEmpty)
+  if (formPassword == null || formPassword.isEmpty) {
     return 'Password is required.';
+  }
 
   String pattern =
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
   RegExp regex = RegExp(pattern);
-  if (!regex.hasMatch(formPassword))
+  if (!regex.hasMatch(formPassword)) {
     return '''
       Password must be at least 8 characters,
       include an uppercase letter, number and symbol.
       ''';
+  }
 
   return null;
 }

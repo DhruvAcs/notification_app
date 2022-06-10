@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
       }
       //Loading circle
       showDialog(context: context, builder: (context) {
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       },
       );
 
@@ -221,8 +221,9 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 String? validateEmail(String? formEmail) {
-  if (formEmail == null || formEmail.isEmpty)
+  if (formEmail == null || formEmail.isEmpty) {
     return 'E-mail address is required.';
+  }
 
   String pattern = r'\w+@\w+\.\w+';
   RegExp regex = RegExp(pattern);

@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 class GetTeacher extends StatelessWidget {
   final String elementId;
 
-  GetTeacher({required this.elementId}){
-
-  }
+  const GetTeacher({Key? key, required this.elementId}) : super(key: key);
 
 
   @override
@@ -22,7 +20,7 @@ class GetTeacher extends StatelessWidget {
               dynamic>;
           return Text('${data['teacher']}');
         }
-        return Text('loading...');
+        return const Text('loading...');
       }),
     );
   }

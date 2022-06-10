@@ -7,6 +7,8 @@ import 'package:notification_app/pages/home_page.dart';
 
 
 class VerifyPage extends StatefulWidget {
+  const VerifyPage({Key? key}) : super(key: key);
+
   @override
   _VerifyPageState createState() => _VerifyPageState();
 }
@@ -15,15 +17,15 @@ class _VerifyPageState extends State<VerifyPage> {
   final instance = FirebaseAuth.instance;
   late User user;
   late Timer timer;
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
+  // final _firstNameController = TextEditingController();
+  // final _lastNameController = TextEditingController();
 
   @override
   void initState() {
     user = instance.currentUser!;
     user.sendEmailVerification();
 
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       checkEmailVerified();
     });
     super.initState();
@@ -40,7 +42,7 @@ class _VerifyPageState extends State<VerifyPage> {
     if (user.emailVerified) {
       timer.cancel();
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomePage()));
+          MaterialPageRoute(builder: (context) => const HomePage()));
     }
   }
 

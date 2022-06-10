@@ -2,12 +2,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notification_app/pages/admin%20pages/admin_home_page.dart';
-import 'package:notification_app/pages/admin%20pages/input_page.dart';
 import 'package:notification_app/pages/forgot_pw_page.dart';
 import 'package:notification_app/pages/teacherSelect_page.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:notification_app/main.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -18,11 +16,12 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
-  late final instance;
-  late final user;
+  final FirebaseAuth instance = FirebaseAuth.instance;
+  late final User user;
 
+  @override
   initState() {
-    instance = FirebaseAuth.instance;
+    super.initState();
     user = instance.currentUser!;
   }
   @override
@@ -34,7 +33,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text(
           'Welcome ' + user.email!,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
       ),
       body:  SettingsList(
@@ -71,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 value: const Text(' '),
                 onPressed: (context) {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => TeacherSelectPage(),
+                    builder: (context) => const TeacherSelectPage(),
                   ));
                 }
               ),
@@ -96,7 +95,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 value: const Text('*********'),
                 onPressed: (context) {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ForgotPasswordPage(),
+                    builder: (context) => const ForgotPasswordPage(),
                   ));
                 },
 
@@ -107,7 +106,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 value: const Text('This will only work with admin permission accounts'),
                 onPressed: (context) {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AdminHomePage(),
+                    builder: (context) => const AdminHomePage(),
                   ));
                 },
               ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class GetAction extends StatelessWidget {
   final String documentId;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   late final String teacherid;
 
   GetAction({Key? key, required this.documentId}) : super(key: key);
@@ -31,9 +31,9 @@ class GetAction extends StatelessWidget {
         // print('${data[1]['prefix']}' + '${data[1]['lastName']}' + '  |  ' 'Period: ${data[0]['period']}' +'  |  '+ ' ${data[0]['action']}');
         // Map<String, dynamic> data = snapshot.data.data() as Map<String, dynamic>;
 
-        return Text('${data[1]['prefix']}' + '${data[1]['lastName']}' + '  |  ' 'Period: ${data[0]['period']}' +'  |  '+ ' ${data[0]['action']}');
+        return Text('${data[1]['prefix']}${data[1]['lastName']}  |  ' 'Period: ${data[0]['period']}  |   ${data[0]['action']}');
       }
-      return Text('loading...');
+      return const Text('loading...');
     }),
     );
   }

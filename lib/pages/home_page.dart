@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _currentPage = DashboardPage();
+    _currentPage = const DashboardPage();
     super.initState();
   }
   @override
@@ -31,13 +31,13 @@ class _HomePageState extends State<HomePage> {
         onTap: (index){
           switch (index){
             case 0:
-              _currentPage = DashboardPage();
+              _currentPage = const DashboardPage();
               break;
             case 1:
-              _currentPage = TeacherSelectPage();
+              _currentPage = const TeacherSelectPage();
               break;
             case 2:
-              _currentPage = SettingsPage();
+              _currentPage = const SettingsPage();
               break;
           }
           setState(() {
